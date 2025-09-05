@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>News Categories</title>
+  <style>
+    body { font-family: Arial; }
+
+    select {
+      padding: 10px;
+      font-size: 16px;
+      margin-top: 20px;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.4);
+    }
+
+    .modal-content {
+      background-color: #fff;
+      margin: 10% auto;
+      padding: 20px;
+      border: 2px solid #888;
+      width: 90%;
+      max-width: 600px;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+
+    .close {
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+      color: #aaa;
+      cursor: pointer;
+    }
+
+    .close:hover {
+      color: red;
+    }
+
+    .news-item {
+      margin-bottom: 15px;
+    }
+
+    .btn {
+      margin-top: 5px;
+      padding: 8px 16px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .btn:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Select News Category</h2>
+  <select id="categorySelect" title="Select a news category" onchange="fetchNews()">
+    <option value="">-- Choose Category --</option>
+    <option value="sports">Sports</option>
+    <option value="technology">Technology</option>
+    <option value="politics">Politics</option>
+  </select>
+
+  <!-- News Modal -->
+  <div class="modal" id="newsModal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <h3>Top 5 News</h3>
+      <ol id="newsList"></ol>
+    </div>
+  </div>
+
+  <script>
+    async function fetchNews() {
+      const category = document.getElementById('categorySelect').value;
+      if (!category) return;
+
+      try {
+        const response = await fetch(`/get-news/${category}`);
+        const data = await response.json();
+        const newsList = document.getElementById('newsList');
+        newsList.innerHTML = '';
+
+        data.articles.forEach((article, index) => {
+          const li = document.createElement('li');
+          li.className = 'news-item';
+          li.id = article.id;
+
+          const title = document.createElement('p');
+          title.textContent = article.title;
+
+          const link = document.createElement('a');
+          link.href = article.url;
+          link.textContent = "Read Full Article";
+          link.className = "btn";
+          link.target = "_blank";
+
+          li.appendChild(title);
+          li.appendChild(link);
+          newsList.appendChild(li);
+        });
+
+        document.getElementById('newsModal').style.display = "block";
+      } catch (err) {
+        console.error(err);
+        alert("Failed to fetch news.");
+      }
+    }
+
+    function closeModal() {
+      document.getElementById('newsModal').style.display = "none";
+    }
+  </script>
+
+</body>
+</html>
