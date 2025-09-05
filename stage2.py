@@ -10,7 +10,7 @@ nlp = spacy.load("en_core_web_sm")
 geolocator = Nominatim(user_agent="news_location_extractor")
 
 # Your NewsAPI key
-API_KEY = '3c19dca3-97b6-47d8-9df8-ac8c108fe5cf'
+API_KEY = '123apispce'
 
 # Function to extract coordinates
 def extract_coordinates(text):

@@ -7,7 +7,7 @@ from geopy.geocoders import Nominatim
 nlp = spacy.load("en_core_web_sm")  
 
 app = Flask(__name__)
-API_KEY = 'a99f1842e87946c482e3731fa59f4256'
+API_KEY = 'apispace'
 
 """# Mapping of categories to API parameters
 NEWS_CATEGORIES = {

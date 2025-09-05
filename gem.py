@@ -2,7 +2,7 @@ from flask import Flask, jsonify, render_template
 import requests
 import uuid
 app = Flask(__name__)
-API_KEY = 'a99f1842e87946c482e3731fa59f4256'
+API_KEY = 'apispace'
 
 # Mapping of categories to API parameters
 NEWS_CATEGORIES = {
